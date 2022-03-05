@@ -1,4 +1,4 @@
-Fyyur
+My Fyyur solution
 -----
 
 ## Introduction
