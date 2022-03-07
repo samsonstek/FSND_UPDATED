@@ -10,14 +10,16 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from forms import *
 from flask_migrate import Migrate
+from flask_wtf.csrf import CSRFProtect
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
 
 app = Flask(__name__)
+csrf = CSRFProtect(app)
 moment = Moment(app)
 app.config.from_object('config')
 db = SQLAlchemy(app)
@@ -240,9 +242,24 @@ def create_venue_form():
 def create_venue_submission():
   form = VenueForm()
   if form.validate_on_submit():
+    created_venue = Venue(
+      name = form.name.data,
+      city = form.city.data,
+      state = form.state.data,
+      address = form.address.data,
+      phone =form.phone.data,
+      image_link = form.image_link.data,
+      facebook_link = form.facebook_link.data,
+      website_link = form.website_link.data,
+      genres = form.genres.data,
+      seeking_talent = form.seeking_talent.data,
+      seeking_description = form.seeking_description.data
+    )
+    db.session.add(created_venue)
+    db.session.commit()
     flash('Venue ' + request.form['name'] + ' was successfully listed!')
     return render_template('pages/home.html')
-  flash('An error occurred. Venue ' + request.form['name'] + ' could not be listed.')
+  flash('An error occurred. Venue ' + json.dumps(form.errors) + ' could not be listed.')
   return render_template('forms/new_venue.html', form=form)
   # TODO: insert form data as a new Venue record in the db, instead
   # TODO: modify data to be the data object returned from db insertion
