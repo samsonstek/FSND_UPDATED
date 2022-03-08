@@ -120,7 +120,9 @@ class VenueForm(Form):
         'website_link', validators=[URL()]
     )
 
-    seeking_talent = BooleanField( 'seeking_talent' )
+    seeking_talent = BooleanField( 
+        'seeking_talent' 
+    )
 
     seeking_description = StringField(
         'seeking_description'
@@ -193,7 +195,7 @@ class ArtistForm(Form):
     )
     phone = StringField(
         # TODO implement validation logic for phone 
-        'phone'
+        'phone', validators=[DataRequired()]
     )
     image_link = StringField(
         'image_link'
@@ -231,7 +233,9 @@ class ArtistForm(Form):
         'website_link'
      )
 
-    # seeking_venue = BooleanField( 'seeking_venue' )
+    seeking_venue = BooleanField( 
+        'seeking_venue' 
+    )
 
     seeking_description = StringField(
             'seeking_description'

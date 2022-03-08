@@ -259,8 +259,9 @@ def create_venue_submission():
     db.session.commit()
     flash('Venue ' + request.form['name'] + ' was successfully listed!')
     return render_template('pages/home.html')
-  flash('An error occurred. Venue ' + json.dumps(form.errors) + ' could not be listed.')
+  flash('An error occurred. Venue ' + request.form['name'] + ' could not be listed.')
   return render_template('forms/new_venue.html', form=form)
+  # To check error jason.dumps(form.errors)
   # TODO: insert form data as a new Venue record in the db, instead
   # TODO: modify data to be the data object returned from db insertion
 
@@ -456,6 +457,21 @@ def create_artist_form():
 def create_artist_submission():
   form = ArtistForm()
   if form.validate_on_submit():
+    created_artist = Artist(
+      name = form.name.data,
+      city = form.city.data,
+      state = form.state.data,
+      phone = form.phone.data,
+      image_link = form.image_link.data,
+      genres = form.genres.data,
+      facebook_link = form.facebook_link.data,
+      website_link = form.website_link.data,
+      seeking_venue = form.seeking_venue.data,
+      seeking_description = form.seeking_description.data
+    )
+    db.session.add(created_artist)
+    db.session.commit()
+
     flash('Artist ' + request.form['name'] + ' was successfully listed!')
     return render_template('pages/home.html')
   flash('An error occurred. Artist ' + request.form['name'] + ' could not be listed.')
