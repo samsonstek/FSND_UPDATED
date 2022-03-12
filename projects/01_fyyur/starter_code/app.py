@@ -3,6 +3,7 @@
 #----------------------------------------------------------------------------#
 
 import json
+from unicodedata import name
 import dateutil.parser
 import babel
 from flask import Flask, render_template, request, Response, flash, redirect, url_for
@@ -106,6 +107,7 @@ def index():
 
 @app.route('/venues')
 def venues():
+
   # TODO: replace with real venues data.
   #       num_upcoming_shows should be aggregated based on number of upcoming shows per venue.
   data=[{
@@ -285,6 +287,18 @@ def delete_venue(venue_id):
 #  ----------------------------------------------------------------
 @app.route('/artists')
 def artists():
+  data = []
+
+  artists = Artist.query.all()
+
+  data = []
+
+  for artist in artists:
+    data.append({
+      "id" : artist.id,
+      "name": artist.name
+    })
+
   # TODO: replace with real data returned from querying the database
   data=[{
     "id": 4,
