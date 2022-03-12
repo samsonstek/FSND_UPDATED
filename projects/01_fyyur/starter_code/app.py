@@ -108,6 +108,33 @@ def index():
 @app.route('/venues')
 def venues():
 
+  venues = Venue.query.all()
+  
+
+  data = []
+  cities_states = ()
+
+  for venue in venues:
+    city = venue.city
+    state = venue.state
+    cities_states.add(city, state)
+
+    for city_state in cities_states:
+      data.append({
+        "city", city_state[0],
+        "state", city_state[1],
+        "venues", []
+      })
+      
+
+    shows = Show.query.filter_by(venue.id).all()
+    num_upcoming_shows = 0
+    date_today = datetime.now()
+
+    for show in shows:
+      if show.start_time >date_today:
+        num_upcoming_shows += 1
+
   # TODO: replace with real venues data.
   #       num_upcoming_shows should be aggregated based on number of upcoming shows per venue.
   data=[{
