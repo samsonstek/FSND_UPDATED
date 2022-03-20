@@ -173,7 +173,7 @@ def search_venues():
       "id": venue.id,
       "name": venue.name
     })
-  responses = {
+  response = {
     "count": len(venues),
     "data": data,
     "num_upcoming_shows": 0
@@ -385,6 +385,7 @@ def search_artists():
 
 @app.route('/artists/<int:artist_id>')
 def show_artist(artist_id):
+  # artist = Artist.query.filter(Artist.id == artist_id).first()
   # shows the artist page with the given artist_id
   # TODO: replace with real artist data from the artist table, using artist_id
   data1={
